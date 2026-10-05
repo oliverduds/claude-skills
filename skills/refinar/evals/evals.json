@@ -1,0 +1,66 @@
+{
+  "skill_name": "refinar",
+  "evals": [
+    {
+      "id": 0,
+      "name": "primeira-rodada-software",
+      "prompt": "quero um script que organize minha pasta Downloads\n\n(Contexto de teste: você está rodando como subagente e não tem como receber respostas do usuário. Em vez de chamar a ferramenta AskUserQuestion, escreva em perguntas.md exatamente a primeira rodada que você passaria para ela: para cada pergunta, o cabeçalho, o texto da pergunta e as opções com rótulo e descrição, na ordem em que apareceriam. Depois, em uma seção final 'Lacunas restantes', liste o que você ainda precisaria saber para fechar o brief e que deixaria para a rodada 2.)",
+      "expected_output": "Um perguntas.md com 2 a 4 perguntas de múltipla escolha sobre as lacunas decisivas (regra de organização, o que fazer com arquivos duplicados/ambíguos, como executar: manual/agendado, SO e linguagem, o que não tocar, quando parar e perguntar). Cada pergunta tem 2–4 opções, a primeira marcada (Recomendado), cada opção com rótulo curto + o que acontece se escolhida. Nenhuma pergunta aberta. Não pergunta o que já foi dito (é a pasta Downloads, é um script).",
+      "files": [],
+      "assertions": [
+        "Rodada tem entre 2 e 4 perguntas",
+        "Toda pergunta tem de 2 a 4 opções",
+        "Em toda pergunta, a primeira opção está marcada como recomendada",
+        "Cada opção tem rótulo curto + descrição do que acontece se for escolhida (consequência, não repetição do rótulo)",
+        "Rótulos das opções têm no máximo 5 palavras e cabeçalhos no máximo 12 caracteres",
+        "Nenhuma pergunta aberta: toda pergunta oferece opções",
+        "Não re-pergunta o que já foi dito: não pergunta qual pasta é, nem se é um script",
+        "Não pergunta o que daria para descobrir sozinho inspecionando a pasta (ex.: SO, tipos de arquivo presentes) sem antes tê-la inspecionado",
+        "Tem seção 'Lacunas restantes' com itens concretos para a rodada 2",
+        "As perguntas cobrem as lacunas mais decisivas para um brief: regra de organização, tratamento de duplicatas/ambíguos, modo de execução, regras de parada/segurança (o que nunca apagar)",
+        "Não contém frases do tipo 'pense com cuidado' / 'think hard' dirigidas ao modelo (menções meta citando a regra não contam)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "primeira-rodada-documento",
+      "prompt": "preciso de um texto explicando para os associados do sindicato o que muda com a nova convenção coletiva\n\n(Contexto de teste: você está rodando como subagente e não tem como receber respostas do usuário. Em vez de chamar a ferramenta AskUserQuestion, escreva em perguntas.md exatamente a primeira rodada que você passaria para ela: para cada pergunta, o cabeçalho, o texto da pergunta e as opções com rótulo e descrição, na ordem em que apareceriam. Depois, em uma seção final 'Lacunas restantes', liste o que você ainda precisaria saber para fechar o brief e que deixaria para a rodada 2.)",
+      "expected_output": "Um perguntas.md com 2 a 4 perguntas adequadas a documento/texto: canal e formato (post no site, e-mail, PDF impresso, post em rede social), tom, tamanho, de onde vem o conteúdo (texto da convenção fornecido / pesquisar / já conhecido), o que o associado deve fazer depois de ler. Opções com (Recomendado) primeiro, rótulo + consequência. Não pergunta quem é o público (já foi dito: associados) nem o tema.",
+      "files": [],
+      "assertions": [
+        "Rodada tem entre 2 e 4 perguntas",
+        "Toda pergunta tem de 2 a 4 opções",
+        "Em toda pergunta, a primeira opção está marcada como recomendada",
+        "Cada opção tem rótulo curto + descrição do que acontece se for escolhida (consequência, não repetição do rótulo)",
+        "Rótulos das opções têm no máximo 5 palavras e cabeçalhos no máximo 12 caracteres",
+        "Nenhuma pergunta aberta: toda pergunta oferece opções",
+        "Não re-pergunta o que já foi dito: não pergunta quem é o público (associados) nem qual é o tema (nova convenção coletiva)",
+        "Tem seção 'Lacunas restantes' com itens concretos para a rodada 2",
+        "As perguntas cobrem as lacunas decisivas para um texto: fonte do conteúdo (texto da convenção disponível?), canal/formato de publicação, profundidade/tamanho, tom",
+        "Aproveita o contexto do ambiente quando disponível (ex.: se há sinais de qual sindicato é, usa como recomendação em vez de perguntar)",
+        "Não contém frases do tipo 'pense com cuidado' / 'think hard' dirigidas ao modelo (menções meta citando a regra não contam)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "brief-final-dashboard",
+      "prompt": "quero um dashboard de vendas\n\n(Contexto de teste: as rodadas de perguntas já aconteceram. Abaixo está o registro do que foi perguntado e respondido. Não faça novas perguntas e não chame AskUserQuestion. Escreva o brief final no template da skill em brief.md e, no fim do arquivo, a pergunta de decisão final que você faria, com as opções.)\n\nRodada 1:\n- Quem olha o dashboard? → Eu e dois gerentes, toda segunda-feira.\n- Fonte dos dados? → Planilha vendas.csv que exporto do ERP, colunas: data, vendedor, cliente, produto, valor.\n- Formato? → Página HTML estática que abre sem servidor.\n- Período e granularidade? → Últimos 12 meses, por mês.\n\nRodada 2:\n- Métricas obrigatórias? → Receita mensal total, receita por vendedor, top 10 clientes.\n- O que não pode ter? → Nada de framework pesado (React etc.), nada de fundo creme, nada de botão em pílula. Pode usar Chart.js via CDN.\n- Quando parar e perguntar? → Só se o CSV tiver dados inconsistentes que mudem os números. Fora isso vai até o fim.\n- Filtros? → Por vendedor. Sem filtro por data agora.",
+      "expected_output": "Um brief.md seguindo o template: Objetivo; Pronto significa (lista verificável: abre no navegador sem servidor, lê vendas.csv, mostra as 3 métricas dos últimos 12 meses, filtra por vendedor, só Chart.js via CDN); Entrega (arquivo HTML, local); Contexto e insumos (vendas.csv e colunas); Restrições (sem framework pesado, sem fundo creme, sem botão pílula); Regras de parada (só com CSV inconsistente, sempre antes de destrutivo); Premissas (decisões menores, ex.: como tratar linhas sem vendedor, nome do arquivo de saída); Fora de escopo (filtro por data). Sem frases como 'pense com cuidado'. Termina com a pergunta Construir agora (Recomendado) / Ajustar algo / Salvar e parar.",
+      "files": [],
+      "assertions": [
+        "Tem as seções: Objetivo, Pronto significa, Entrega, Contexto e insumos, Restrições, Regras de parada, Divisão do trabalho, Premissas, Fora de escopo (nomes equivalentes aceitos se o conteúdo corresponder)",
+        "'Pronto significa' é uma lista de itens verificáveis (cada item dá para checar objetivamente) com pelo menos 3 itens",
+        "Critério de pronto cobre: abre sem servidor, lê vendas.csv, mostra as 3 métricas dos últimos 12 meses, filtra por vendedor, só Chart.js via CDN como dependência",
+        "Restrições citam explicitamente: sem framework pesado, sem fundo creme, sem botão em pílula",
+        "Regras de parada: continuar sem perguntar; parar só com CSV inconsistente que mude os números; e sempre antes de algo destrutivo",
+        "Premissas listam decisões menores tomadas sem perguntar, de forma que o usuário possa vetar (ex.: como o CSV entra na página, tratamento de linhas inválidas)",
+        "Fora de escopo menciona o filtro por data",
+        "Não contém frases do tipo 'pense com cuidado' / 'seja minucioso' / 'think hard' dirigidas ao executor (menções meta citando a regra não contam)",
+        "Não inventa fatos que o usuário não disse (ex.: nome do sindicato, metas, valores) nem contradiz as respostas dadas",
+        "Termina com uma pergunta de decisão de múltipla escolha cuja primeira opção é 'Construir agora' marcada como recomendada, seguida de opções para ajustar e para salvar/parar",
+        "O brief é a tarefa inteira em uma mensagem: um executor conseguiria começar e terminar sem voltar a perguntar nada que não esteja nas regras de parada",
+        "Tamanho proporcional: o brief não ultrapassa ~1.500 palavras nem repete informação entre seções"
+      ]
+    }
+  ]
+}
